@@ -11,7 +11,7 @@ RUN apt-get update && \
    apt-get install -y software-properties-common && \
    apt-get install -y byobu curl git htop man unzip vim wget && \
    export DEBIAN_FRONTEND=noninteractive && apt-get -q -y install mysql-server && \
-   add-apt-repository -y ppa:ondrej/php && apt-get update && apt-get install -y --force-yes php5.6 php5.6-xml php5.6-mysql php5.6-mcrypt php5.6-curl php5.6-gd php5.6-fpm && \
+   add-apt-repository -y ppa:ondrej/php && apt-get update && apt-get install -y --force-yes php5.6 php5.6-xml php5.6-mysql php5.6-mcrypt php5.6-curl php5.6-gd php5.6-fpm php5.6-soap && \
    apt-get install -y --force-yes nginx && \
    apt-get clean
 
