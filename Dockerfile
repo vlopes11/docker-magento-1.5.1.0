@@ -21,11 +21,20 @@ ADD root/.gitconfig /root/.gitconfig
 ADD root/.scripts /root/.scripts
 ADD root/run_services.sh /root/run_services.sh
 ADD opt/magento-1.5.1.0-2015-02-12-06-33-41.zip /opt/magento-1.5.1.0-2015-02-12-06-33-41.zip
+ADD etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD etc/nginx/sites-available/default /etc/nginx/sites-available/default
 ADD opt/database_magento.sql /opt/database_magento.sql
 
 # Extract magento files
-RUN cd /opt && unzip magento-1.5.1.0-2015-02-12-06-33-41.zip && chown -R www-data.www-data /opt/magento
+RUN cd /opt && \
+   unzip magento-1.5.1.0-2015-02-12-06-33-41.zip && \
+   chown -R www-data.www-data /opt/magento
+
+# Run services & create mysql db
+RUN update-rc.d php5.6-fpm defaults
+RUN update-rc.d mysql defaults && \
+   service mysql start && \
+   mysql -u root < /opt/database_magento.sql
 
 # Set environment variables.
 ENV HOME /root
@@ -33,8 +42,8 @@ ENV HOME /root
 # Define working directory.
 WORKDIR /root
 
-# Define default command.
-CMD ["/root/run_services.sh"]
-
 # Expose nginx port
 EXPOSE 80
+
+# Define default command.
+CMD ["/root/run_services.sh"]
